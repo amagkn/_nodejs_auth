@@ -4,13 +4,12 @@ import Fastify from "fastify";
 import fastifyStatic from "@fastify/static";
 import path from "path";
 import { fileURLToPath } from "url";
+import { connectDB } from "./db.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = Fastify({ logger: true });
-
-console.log(process.env.MONGO_URL);
 
 async function startApp() {
   try {
@@ -29,5 +28,6 @@ async function startApp() {
     console.log(e);
   }
 }
-
-startApp();
+connectDB().then(() => {
+  startApp();
+});
