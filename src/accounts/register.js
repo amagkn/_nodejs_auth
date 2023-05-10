@@ -6,10 +6,10 @@ export async function registerUser(email, password) {
 
   const hashedPassword = await bcrypt.hash(password, salt);
 
-  const result = await User.insertOne({
+  const user = await User.insertOne({
     email: { address: email, verify: false },
     password: hashedPassword,
   });
 
-  return result.insertedId;
+  return user;
 }

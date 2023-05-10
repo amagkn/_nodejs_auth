@@ -17,9 +17,10 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
+      flex-direction: column;
     "
   >
-    <main>
+    <section>
       <h3>Register form</h3>
       <form id="register-form">
         <div style="margin-bottom: 15px">
@@ -36,18 +37,40 @@
         </div>
         <button type="submit">Register</button>
       </form>
-    </main>
+    </section>
+    <br />
+    <br />
+    <br />
+    <br />
+    <section>
+      <h3>Login form</h3>
+      <form id="login-form">
+        <div style="margin-bottom: 15px">
+          <label>
+            Email:
+            <input type="email" name="email" />
+          </label>
+        </div>
+        <div style="margin-bottom: 15px">
+          <label>
+            Password:
+            <input type="password" name="password" />
+          </label>
+        </div>
+        <button type="submit">Login</button>
+      </form>
+    </section>
 
     <script>
       (() => {
-        const form = document.getElementById("register-form");
+        const registerForm = document.getElementById("register-form");
 
-        form.addEventListener("submit", async (e) => {
+        registerForm.addEventListener("submit", async (e) => {
           e.preventDefault();
 
           const body = {};
 
-          for (let [key, value] of new FormData(form)) {
+          for (let [key, value] of new FormData(registerForm)) {
             body[key] = value;
           }
 
@@ -57,7 +80,27 @@
             body: JSON.stringify(body),
           });
 
-          form.reset();
+          registerForm.reset();
+        });
+
+        const loginForm = document.getElementById("login-form");
+
+        loginForm.addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const body = {};
+
+          for (let [key, value] of new FormData(loginForm)) {
+            body[key] = value;
+          }
+
+          await fetch("/api/authorize", {
+            method: "POST",
+            headers: { "Content-Type": "application/json; charset=UTF-8" },
+            body: JSON.stringify(body),
+          });
+
+          loginForm.reset();
         });
       })();
     </script>
