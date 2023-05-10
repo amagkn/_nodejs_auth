@@ -1,13 +1,65 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Document</title>
-</head>
-<body>
-    <h1>Hello world</h1>
-</body>
+  </head>
+  <body
+    style="
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    "
+  >
+    <main>
+      <h3>Register form</h3>
+      <form id="register-form">
+        <div style="margin-bottom: 15px">
+          <label>
+            Email:
+            <input type="email" name="email" />
+          </label>
+        </div>
+        <div style="margin-bottom: 15px">
+          <label>
+            Password:
+            <input type="password" name="password" />
+          </label>
+        </div>
+        <button type="submit">Register</button>
+      </form>
+    </main>
+
+    <script>
+      (() => {
+        const form = document.getElementById("register-form");
+
+        form.addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const body = {};
+
+          for (let [key, value] of new FormData(form)) {
+            body[key] = value;
+          }
+
+          await fetch("/api/register", {
+            method: "POST",
+            headers: { "Content-Type": "application/json; charset=UTF-8" },
+            body: JSON.stringify(body),
+          });
+
+          form.reset();
+        });
+      })();
+    </script>
+  </body>
 </html>

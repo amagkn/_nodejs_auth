@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "@fastify/static": "^6.10.1",
+    "bcryptjs": "^2.4.3",
     "dotenv": "^16.0.3",
     "fastify": "^4.17.0",
     "mongodb": "^5.4.0"
