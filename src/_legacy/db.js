@@ -1,10 +1,8 @@
 import mongo from "mongodb";
 
-const { MongoClient } = mongo;
-
 const url = process.env.MONGO_URL;
 
-export const client = new MongoClient(url);
+export const client = new mongo.MongoClient(url);
 
 export async function connectDB() {
   try {
@@ -16,6 +14,6 @@ export async function connectDB() {
   } catch (e) {
     console.error(e);
 
-    await client.close();
+    client.close();
   }
 }

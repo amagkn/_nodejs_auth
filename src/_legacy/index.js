@@ -1,4 +1,4 @@
-import "./env.js";
+import "../env.js";
 
 import Fastify from "fastify";
 import fastifyStatic from "@fastify/static";

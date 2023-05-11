@@ -90,7 +90,7 @@
             body[key] = value;
           }
 
-          await fetch("/api/register", {
+          await fetch("/auth/register", {
             method: "POST",
             headers: { "Content-Type": "application/json; charset=UTF-8" },
             body: JSON.stringify(body),
@@ -108,7 +108,7 @@
             body[key] = value;
           }
 
-          await fetch("/api/authorize", {
+          await fetch("/auth/authorize", {
             method: "POST",
             headers: { "Content-Type": "application/json; charset=UTF-8" },
             body: JSON.stringify(body),
@@ -118,7 +118,7 @@
         });
 
         logoutButton.addEventListener("click", async () => {
-          await fetch("/api/logout", {
+          await fetch("/auth/logout", {
             method: "POST",
           });
         });
