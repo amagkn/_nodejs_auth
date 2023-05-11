@@ -8,6 +8,8 @@ import { fileURLToPath } from "url";
 import { connectDB } from "./db.js";
 import { authorizeUser, registerUser } from "./services/auth-service.js";
 import { logUserIn } from "./dumbass/logUserIn.js";
+import { getUserFromCookies } from "./dumbass/user.js";
+import { logUserOut } from "./dumbass/logUserOut.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -40,24 +42,41 @@ async function startApp() {
 
     app.post("/api/authorize", {}, async (req, res) => {
       try {
-        console.log(req.ip, req.headers["user-agent"]);
         const { email, password } = req.body;
 
         const user = await authorizeUser(email, password);
 
         await logUserIn(user._id, req, res);
 
-        res.setCookie("testCookie", "value of test cookie", {
-          path: "/",
-          domain: "localhost",
-          httpOnly: true,
-        });
-
         res.send(user);
       } catch (e) {
         console.error(e);
 
         res.send(e.message);
+      }
+    });
+
+    app.get("/private", {}, async (req, res) => {
+      try {
+        const user = await getUserFromCookies(req, res);
+
+        if (!user) {
+          return res.status(403).send();
+        }
+
+        res.send(user);
+      } catch (e) {
+        console.error(e);
+      }
+    });
+
+    app.post("/api/logout", {}, async (req, res) => {
+      try {
+        await logUserOut(req, res);
+
+        res.send();
+      } catch (e) {
+        console.error(e);
       }
     });
 
